@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AES Explained - الشرح المفصل لخوارزمية AES</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <!-- <aside class="sidebar" id="sidebar"> -->
+    <!-- Logo/Header -->
+    <!-- <div class="sidebar-header">
+      <h1 class="sidebar-title">AES</h1>
+      <p class="sidebar-subtitle">شرح مفصل</p>
+    </div> -->
+
+    <!-- Navigation -->
+    <!-- <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-section="home">
+        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span class="nav-label">الرئيسية</span>
+      </a>
+      
+      <a href="#intro" class="nav-item" data-section="intro">
+        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <span class="nav-label">المقدمة</span>
+      </a>
+      
+      <a href="#initialization" class="nav-item" data-section="initialization">
+        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <span class="nav-label">مرحلة التهيئة</span>
+      </a>
+      
+      <a href="#subbytes" class="nav-item" data-section="subbytes">
+        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span class="nav-label">SubBytes</span>
+      </a>
+      
+      <a href="#shiftrows" class="nav-item" data-section="shiftrows">
+        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span class="nav-label">ShiftRows</span>
+      </a>
+      
+      <a href="#mixcolumns" class="nav-item" data-section="mixcolumns">
+        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span class="nav-label">MixColumns</span>
+      </a>
+      
+      <a href="#addroundkey" class="nav-item" data-section="addroundkey">
+        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+        </svg>
+        <span class="nav-label">AddRoundKey</span>
+      </a>
+      
+      <a href="#finalround" class="nav-item" data-section="finalround">
+        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+        <span class="nav-label">الجولة النهائية</span>
+      </a>
+      
+      <a href="#keyexpansion" class="nav-item" data-section="keyexpansion">
+        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+        </svg>
+        <span class="nav-label">توسيع المفتاح</span>
+      </a>
+    </nav> -->
+
+    <!-- Footer Info -->
+    <div class="sidebar-footer">
+      <p class="sidebar-footer-text">AES-128 (10 جولات)</p>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-gradient">
+        <div class="hero-content">
+          <div class="hero-circle"></div>
+          <div class="hero-text">
+            <h1 class="hero-title">معيار التشفير المتقدم</h1>
+            <h2 class="hero-subtitle">Advanced Encryption Standard (AES)</h2>
+            <p class="hero-description">
+              شرح مفصل وشامل لخوارزمية AES، من الأساسيات إلى التفاصيل الرياضية المعقدة.
+              تعلم كيف تعمل واحدة من أقوى خوارزميات التشفير في العالم.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Flow Image -->
+    <section class="process-flow-section">
+      <img src="client/public/images/aes-process-flow.png" alt="AES Encryption Process" class="process-flow-image">
+    </section>
+
+    <!-- Introduction Section -->
+    <section id="intro" class="content-card">
+      <div class="card-header">
+        <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <h2 class="card-title">المقدمة: معيار التشفير المتقدم</h2>
+      </div>
+      <div class="card-content">
+        <p>
+          تُعد خوارزمية <strong>معيار التشفير المتقدم (Advanced Encryption Standard - AES)</strong>، والمعروفة أيضاً باسم <strong>Rijndael</strong>، حجر الزاوية في أمن المعلومات الحديث. تم اختيارها واعتمادها من قبل المعهد الوطني للمعايير والتكنولوجيا (NIST) في عام 2001 لتحل محل خوارزمية تشفير البيانات (DES).
+        </p>
+        <p>
+          تندرج AES ضمن فئة <strong>تشفير الكتل المتماثل (Symmetric Block Cipher)</strong>، مما يعني أنها تستخدم نفس المفتاح لتشفير البيانات وفك تشفيرها، وتعمل على معالجة البيانات في كتل ذات حجم ثابت.
+        </p>
+
+        <div class="info-box accent-box">
+          <h4 class="info-box-title">الخصائص الأساسية:</h4>
+          <ul class="info-list">
+            <li>✓ <strong>حجم الكتلة:</strong> 128 بت (16 بايت) ثابت</li>
+            <li>✓ <strong>أطوال المفاتيح:</strong> 128، 192، أو 256 بت</li>
+            <li>✓ <strong>عدد الجولات:</strong> 10، 12، أو 14 جولة حسب طول المفتاح</li>
+            <li>✓ <strong>النوع:</strong> تشفير متماثل (نفس المفتاح للتشفير وفك التشفير)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Initialization Section -->
+    <section id="initialization" class="content-card">
+      <div class="card-header">
+        <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <h2 class="card-title">مرحلة التهيئة (Initialization)</h2>
+      </div>
+      <div class="card-content">
+        <p>
+          تبدأ عملية التشفير بتحويل النص الأصلي (Plaintext) إلى مصفوفة الحالة (State Matrix) وتطبيق أول مفتاح جولة.
+        </p>
+
+        <h4 class="section-subtitle">1. تحويل النص الأصلي إلى مصفوفة الحالة</h4>
+        <p>
+          <strong>المدخل:</strong> كتلة من النص الأصلي بحجم 128 بت (16 بايت).
+        </p>
+        <p>
+          <strong>العملية:</strong> يتم ترتيب البايتات الـ 16 في مصفوفة 4×4، حيث يتم وضع البايتات عمودياً (من الأعلى إلى الأسفل، ثم العمود التالي).
+        </p>
+        <ul class="detail-list">
+          <li>البايتات من 0 إلى 3 تشكل العمود الأول</li>
+          <li>البايتات من 4 إلى 7 تشكل العمود الثاني، وهكذا</li>
+        </ul>
+
+        <h4 class="section-subtitle">2. AddRoundKey الأولي</h4>
+        <p>
+          <strong>المدخلات:</strong> مصفوفة الحالة الأولية، ومفتاح الجولة الصفري (K₀) الذي هو المفتاح الأصلي (128 بت).
+        </p>
+        <p>
+          <strong>العملية:</strong> يتم تطبيق عملية <strong>XOR</strong> البسيطة (Exclusive OR) بين كل بايت في مصفوفة الحالة والبايت المقابل له في مفتاح الجولة K₀.
+        </p>
+        <p>
+          <strong>الناتج:</strong> مصفوفة حالة جديدة تدخل الجولة الأولى.
+        </p>
+      </div>
+    </section>
+
+    <!-- SubBytes Section -->
+    <section id="subbytes" class="content-card">
+      <div class="card-header">
+        <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <h2 class="card-title">الخطوة الأولى: SubBytes (استبدال البايتات)</h2>
+      </div>
+      <div class="card-content">
+        <p>
+          هذه الخطوة هي عملية استبدال غير خطية (Non-linear Substitution) تستخدم جدول ثابت يُسمى <strong>S-Box</strong>، وهو جدول 16×16 يحتوي على 256 قيمة بايت فريدة.
+        </p>
+
+        <div class="info-box blue-box">
+          <h4 class="info-box-title">آلية العملية:</h4>
+          <ol class="numbered-list">
+            <li><strong>1.</strong> يُستخدم النصف الأعلى من البايت (مثلاً A من A5) كـ <strong>مؤشر للصف</strong> في جدول S-Box</li>
+            <li><strong>2.</strong> يُستخدم النصف الأدنى من البايت (مثلاً 5 من A5) كـ <strong>مؤشر للعمود</strong> في جدول S-Box</li>
+            <li><strong>3.</strong> يتم استبدال البايت الأصلي بالقيمة الموجودة في تقاطع الصف والعمود المشار إليهما</li>
+          </ol>
+        </div>
+
+        <div class="image-container">
+          <img src="client/public/images/subbytes-sbox.png" alt="SubBytes S-Box Operation" class="section-image">
+        </div>
+
+        <p>
+          <strong>الهدف:</strong> توفير خاصية <strong>الإخفاء (Confusion)</strong>، مما يجعل العلاقة بين المفتاح والنص المشفر معقدة وغير خطية.
+        </p>
+      </div>
+    </section>
+
+    <!-- ShiftRows Section -->
+    <section id="shiftrows" class="content-card">
+      <div class="card-header">
+        <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <h2 class="card-title">الخطوة الثانية: ShiftRows (إزاحة الصفوف)</h2>
+      </div>
+      <div class="card-content">
+        <p>
+          هذه الخطوة هي عملية تدوير دوري (Cyclic Shift) للبايتات داخل صفوف مصفوفة الحالة.
+        </p>
+
+        <div class="info-box green-box">
+          <h4 class="info-box-title">تفاصيل الإزاحة:</h4>
+          <ul class="info-list">
+            <li><strong>الصف 0 (العلوي):</strong> لا يتم إزاحته (إزاحة 0 بايت)</li>
+            <li><strong>الصف 1:</strong> يتم إزاحته دورياً بمقدار <strong>1 بايت</strong> إلى اليسار</li>
+            <li><strong>الصف 2:</strong> يتم إزاحته دورياً بمقدار <strong>2 بايت</strong> إلى اليسار</li>
+            <li><strong>الصف 3 (السفلي):</strong> يتم إزاحته دورياً بمقدار <strong>3 بايتات</strong> إلى اليسار</li>
+          </ul>
+        </div>
+
+        <div class="image-container">
+          <img src="client/public/images/shiftrows-visualization.png" alt="ShiftRows Operation" class="section-image">
+        </div>
+
+        <p>
+          <strong>الهدف:</strong> توفير خاصية <strong>الانتشار (Diffusion)</strong>، حيث تنتشر البايتات عبر الأعمدة، مما يضمن أن تغيير بايت واحد يؤثر على عدة أعمدة.
+        </p>
+      </div>
+    </section>
+
+    <!-- MixColumns Section -->
+    <section id="mixcolumns" class="content-card">
+      <div class="card-header">
+        <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <h2 class="card-title">الخطوة الثالثة: MixColumns (خلط الأعمدة)</h2>
+      </div>
+      <div class="card-content">
+        <p>
+          هذه هي الخطوة الأكثر تعقيداً رياضياً، وتتم عبر ضرب مصفوفي على حقل غالوا (Galois Field).
+        </p>
+
+        <div class="info-box purple-box">
+          <h4 class="info-box-title">المصفوفة الثابتة (Fixed Matrix):</h4>
+          <div class="code-block">
+            <pre>[02  03  01  01]
+[01  02  03  01]
+[01  01  02  03]
+[03  01  01  02]</pre>
+          </div>
+        </div>
+
+        <p>
+          <strong>الرياضيات في حقل غالوا GF(2⁸):</strong> لا يتم استخدام الجمع والضرب العاديين.
+        </p>
+        <ul class="info-list">
+          <li><strong>الجمع:</strong> يتم استبداله بعملية <strong>XOR</strong> البسيطة</li>
+          <li><strong>الضرب:</strong> يتم استبداله بعملية <strong>ضرب متعدد الحدود (Polynomial Multiplication)</strong> مع معامل اختزال (Reduction Modulo) هو x⁸ + x⁴ + x³ + x + 1</li>
+        </ul>
+
+        <div class="info-box yellow-box">
+          <h4 class="info-box-title">مثال على الضرب:</h4>
+          <p>
+            ضرب بايت في 02 يعني إزاحة البايت إلى اليسار بمقدار بت واحد (Left Shift)، وإذا نتج عن الإزاحة تجاوز للبت الثامن (أي أن البت السابع كان 1)، يتم تطبيق عملية XOR مع القيمة 1B (التي تمثل معامل الاختزال).
+          </p>
+        </div>
+
+        <p>
+          <strong>الهدف:</strong> زيادة خاصية <strong>الانتشار (Diffusion)</strong> بشكل كبير، حيث يؤثر كل بايت في العمود على جميع البايتات الأربعة الناتجة في العمود الجديد.
+        </p>
+      </div>
+    </section>
+
+    <!-- AddRoundKey Section -->
+    <section id="addroundkey" class="content-card">
+      <div class="card-header">
+        <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+        </svg>
+        <h2 class="card-title">الخطوة الرابعة: AddRoundKey (إضافة مفتاح الجولة)</h2>
+      </div>
+      <div class="card-content">
+        <p>
+          <strong>المدخلات:</strong> مصفوفة الحالة بعد عملية MixColumns، ومفتاح الجولة الحالي (Kᵢ) الذي تم توليده مسبقاً.
+        </p>
+        <p>
+          <strong>العملية:</strong> تطبيق عملية <strong>XOR</strong> بين مصفوفة الحالة ومفتاح الجولة Kᵢ.
+        </p>
+        <p>
+          <strong>الناتج:</strong> مصفوفة حالة جديدة تدخل الجولة التالية.
+        </p>
+
+        <div class="info-box indigo-box">
+          <h4 class="info-box-title">ملاحظة مهمة:</h4>
+          <p>
+            هذه الخطوة تُطبق في جميع الجولات (الأولية والرئيسية والنهائية)، وهي تُضمن أن كل جولة تستخدم مفتاح فريد، مما يزيد من قوة التشفير بشكل كبير.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Round Section -->
+    <section id="finalround" class="content-card">
+      <div class="card-header">
+        <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+        <h2 class="card-title">الجولة النهائية (The Final Round)</h2>
+      </div>
+      <div class="card-content">
+        <p>
+          الجولة الأخيرة (الجولة 10 في AES-128) هي مطابقة للجولات الرئيسية باستثناء خطوة واحدة:
+        </p>
+
+        <div class="info-box red-box">
+          <h4 class="info-box-title">العمليات:</h4>
+          <p class="code-block">
+            SubBytes → ShiftRows → <strong>AddRoundKey</strong>
+          </p>
+        </div>
+
+        <p>
+          <strong>الاستثناء:</strong> يتم <strong>حذف خطوة MixColumns</strong> من الجولة النهائية.
+        </p>
+
+        <div class="info-box blue-box">
+          <h4 class="info-box-title">السبب:</h4>
+          <p>
+            حذف MixColumns من الجولة النهائية يسمح بتحسين كفاءة فك التشفير (Decryption)، حيث يمكن استخدام نفس البنية الرياضية في الاتجاه العكسي.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Expansion Section -->
+    <section id="keyexpansion" class="content-card">
+      <div class="card-header">
+        <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+        </svg>
+        <h2 class="card-title">توسيع المفتاح (Key Expansion)</h2>
+      </div>
+      <div class="card-content">
+        <p>
+          تُعد هذه العملية ضرورية لتوليد مفاتيح الجولات الـ 11 (من K₀ إلى K₁₀) المطلوبة لـ AES-128. يتم توليد المفاتيح على شكل كلمات (Words)، حيث كل كلمة هي 4 بايتات.
+        </p>
+
+        <h4 class="section-subtitle">توليد الكلمة الأولى من كل مفتاح جولة</h4>
+        <p>
+          هذه هي الخطوة المعقدة التي تضمن عدم تكرار المفاتيح. لتوليد الكلمة Wᵢ (حيث i هو مؤشر الكلمة، مثل W₄، W₈، إلخ)، يتم تطبيق العمليات التالية على الكلمة السابقة مباشرة (Wᵢ₋₁):
+        </p>
+
+        <ol class="numbered-list">
+          <li>
+            <strong>1. RotWord (تدوير الكلمة):</strong> يتم تدوير بايتات الكلمة Wᵢ₋₁ دورياً بمقدار بايت واحد إلى اليسار.
+            <div class="code-example">
+              مثال: (B₀, B₁, B₂, B₃) → (B₁, B₂, B₃, B₀)
+            </div>
+          </li>
+          <li>
+            <strong>2. SubWord (استبدال الكلمة):</strong> يتم تطبيق عملية SubBytes (باستخدام S-Box) على كل بايت من البايتات الأربعة الناتجة عن التدوير.
+          </li>
+          <li>
+            <strong>3. XOR مع ثابت الجولة (Rcon):</strong> يتم تطبيق عملية XOR على النتيجة مع ثابت الجولة (Round Constant - Rcon)، وهو متجه 4 بايتات يتم تحديده لكل جولة.
+          </li>
+          <li>
+            <strong>4. XOR مع الكلمة المقابلة القديمة:</strong> يتم تطبيق عملية XOR على النتيجة النهائية مع الكلمة المقابلة من المفتاح الأصلي (Wᵢ₋₄).
+          </li>
+        </ol>
+
+        <div class="code-block formula-block">
+          <p class="formula-title">الصيغة النهائية للكلمة الأولى:</p>
+          <p>Wᵢ = Wᵢ₋₄ ⊕ SubWord(RotWord(Wᵢ₋₁)) ⊕ Rconⱼ</p>
+        </div>
+
+        <h4 class="section-subtitle">توليد الكلمات اللاحقة</h4>
+        <p>
+          لتوليد الكلمات الثلاث التالية في نفس مفتاح الجولة، يتم استخدام عملية XOR بسيطة:
+        </p>
+
+        <div class="code-block formula-block">
+          <p class="formula-title">الصيغة النهائية للكلمات اللاحقة:</p>
+          <p>Wᵢ = Wᵢ₋₄ ⊕ Wᵢ₋₁</p>
+        </div>
+
+        <p>
+          بهذه الطريقة، يتم توليد 44 كلمة (11 مفتاح جولة × 4 كلمات لكل مفتاح) لتغطية جميع جولات التشفير.
+        </p>
+      </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section class="conclusion-section">
+      <h3 class="conclusion-title">الخلاصة</h3>
+      <p class="conclusion-text">
+        تُظهر البنية المعيارية لخوارزمية AES، التي تعتمد على التكرار المنظم للتحويلات الأربعة الأساسية وعملية توسيع المفتاح المعقدة، سبب كونها الخيار المفضل عالمياً لتشفير البيانات الحساسة.
+      </p>
+      <p class="conclusion-text">
+        إن الجمع بين عمليات الاستبدال غير الخطية (SubBytes) والإزاحة والخلط الخطية (ShiftRows و MixColumns) يضمن تحقيق خصائص <strong>الانتشار (Diffusion)</strong> و<strong>الإخفاء (Confusion)</strong>، وهما الركيزتان الأساسيتان لأي نظام تشفير قوي.
+      </p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-text">© 2025 AES Educational Site | شرح مفصل لخوارزمية معيار التشفير المتقدم</p>
+    </footer>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>

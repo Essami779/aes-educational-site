@@ -1,0 +1,649 @@
+/* ===================================
+   AES Educational Site - Styles
+   Converted from Tailwind CSS to Vanilla CSS
+   =================================== */
+
+/* Google Fonts are imported in HTML */
+
+/* ===================================
+   CSS Variables (Color Palette)
+   =================================== */
+:root {
+  /* Colors */
+  --primary: #1F2937;
+  --primary-foreground: #F9FAFB;
+  --accent: #06B6D4;
+  --accent-foreground: #1F2937;
+  --background: #F9FAFB;
+  --foreground: #1F2937;
+  --card: #FFFFFF;
+  --card-foreground: #1F2937;
+  --muted: #E5E7EB;
+  --muted-foreground: #6B7280;
+  --border: #E5E7EB;
+  
+  /* Spacing */
+  --sidebar-width: 256px;
+  --border-radius: 0.65rem;
+  --border-radius-sm: calc(var(--border-radius) - 4px);
+  --border-radius-lg: var(--border-radius);
+}
+
+/* ===================================
+   Reset & Base Styles
+   =================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  line-height: 1.6;
+  direction: rtl;
+  text-align: right;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+code, pre {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ===================================
+   Sidebar Styles
+   =================================== */
+.sidebar {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: var(--sidebar-width);
+  background-color: var(--card);
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+}
+
+.sidebar-header {
+  position: sticky;
+  top: 0;
+  background-color: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem;
+  z-index: 10;
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+}
+
+.sidebar-subtitle {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+.sidebar-nav {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius-lg);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  color: var(--foreground);
+}
+
+.nav-item:hover {
+  background-color: var(--muted);
+}
+
+.nav-item.active {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+  box-shadow: 0 4px 6px rgba(6, 182, 212, 0.2);
+}
+
+.nav-icon {
+  flex-shrink: 0;
+}
+
+.nav-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.sidebar-footer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding: 1rem;
+  background: linear-gradient(to top, var(--card), transparent);
+  border-top: 1px solid var(--border);
+}
+
+.sidebar-footer-text {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  text-align: center;
+}
+
+/* ===================================
+   Main Content Styles
+   =================================== */
+.main-content {
+  margin-right: var(--sidebar-width);
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+/* ===================================
+   Hero Section
+   =================================== */
+.hero-section {
+  margin-bottom: 3rem;
+}
+
+.hero-gradient {
+  background: linear-gradient(to left, var(--primary), var(--primary), var(--accent));
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.hero-content {
+  position: relative;
+  padding: 3rem;
+  color: white;
+}
+
+.hero-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24rem;
+  height: 24rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  margin-right: -12rem;
+  margin-top: -12rem;
+}
+
+.hero-text {
+  position: relative;
+  z-index: 10;
+}
+
+.hero-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.875rem;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.hero-description {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 42rem;
+  line-height: 1.8;
+}
+
+/* ===================================
+   Process Flow Section
+   =================================== */
+.process-flow-section {
+  margin-bottom: 3rem;
+}
+
+.process-flow-image {
+  width: 100%;
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+}
+
+/* ===================================
+   Content Card Styles
+   =================================== */
+.content-card {
+  scroll-margin-top: 6rem;
+  margin-bottom: 2rem;
+}
+
+.content-card > div:first-child {
+  background-color: var(--card);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.content-card > div:first-child:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background: linear-gradient(to left, var(--primary), rgba(31, 41, 55, 0.8));
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.card-icon {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.card-content {
+  padding: 1.5rem;
+  line-height: 1.8;
+}
+
+.card-content p {
+  margin-bottom: 1rem;
+}
+
+.card-content p:last-child {
+  margin-bottom: 0;
+}
+
+.card-content strong {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* ===================================
+   Typography & Text Styles
+   =================================== */
+.section-subtitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.detail-list,
+.info-list {
+  margin: 1rem 0;
+  padding-right: 1.5rem;
+  list-style-type: disc;
+}
+
+.detail-list li,
+.info-list li {
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.numbered-list {
+  margin: 1rem 0;
+  padding-right: 1.5rem;
+  list-style-type: decimal;
+}
+
+.numbered-list li {
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* ===================================
+   Info Boxes (Colored Alerts)
+   =================================== */
+.info-box {
+  padding: 1rem;
+  border-radius: var(--border-radius-sm);
+  margin: 1.5rem 0;
+}
+
+.info-box-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Accent Box */
+.accent-box {
+  background-color: rgba(6, 182, 212, 0.1);
+  border-right: 4px solid var(--accent);
+}
+
+.accent-box .info-box-title {
+  color: var(--primary);
+}
+
+/* Blue Box */
+.blue-box {
+  background-color: #EFF6FF;
+  border: 1px solid #BFDBFE;
+}
+
+.blue-box .info-box-title {
+  color: var(--primary);
+}
+
+/* Green Box */
+.green-box {
+  background-color: #F0FDF4;
+  border: 1px solid #BBF7D0;
+}
+
+.green-box .info-box-title {
+  color: var(--primary);
+}
+
+/* Purple Box */
+.purple-box {
+  background-color: #FAF5FF;
+  border: 1px solid #E9D5FF;
+}
+
+.purple-box .info-box-title {
+  color: var(--primary);
+}
+
+/* Yellow Box */
+.yellow-box {
+  background-color: #FEFCE8;
+  border: 1px solid #FDE047;
+}
+
+.yellow-box .info-box-title {
+  color: var(--primary);
+}
+
+/* Indigo Box */
+.indigo-box {
+  background-color: #EEF2FF;
+  border: 1px solid #C7D2FE;
+}
+
+.indigo-box .info-box-title {
+  color: var(--primary);
+}
+
+/* Red Box */
+.red-box {
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+}
+
+.red-box .info-box-title {
+  color: var(--primary);
+}
+
+/* ===================================
+   Code Blocks
+   =================================== */
+.code-block {
+  background-color: white;
+  padding: 0.75rem;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.code-block pre {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.code-example {
+  font-family: 'JetBrains Mono', monospace;
+  background-color: #F3F4F6;
+  padding: 0.5rem;
+  border-radius: var(--border-radius-sm);
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.formula-block {
+  background-color: #F3F4F6;
+  border: 1px solid #D1D5DB;
+}
+
+.formula-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.formula-block p:last-child {
+  margin: 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ===================================
+   Images
+   =================================== */
+.image-container {
+  margin: 1.5rem 0;
+}
+
+.section-image {
+  width: 100%;
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+}
+
+/* ===================================
+   Conclusion Section
+   =================================== */
+.conclusion-section {
+  margin-bottom: 3rem;
+  background: linear-gradient(to left, var(--accent), rgba(6, 182, 212, 0.8));
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  color: white;
+}
+
+.conclusion-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.conclusion-text {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  line-height: 1.8;
+}
+
+.conclusion-text:last-child {
+  margin-bottom: 0;
+}
+
+/* ===================================
+   Footer
+   =================================== */
+.footer {
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  text-align: center;
+}
+
+.footer-text {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+/* ===================================
+   Responsive Design
+   =================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 220px;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.5rem;
+  }
+  
+  .main-content {
+    padding: 1.5rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-left: none;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .sidebar-footer {
+    position: relative;
+  }
+  
+  .main-content {
+    margin-right: 0;
+    padding: 1rem;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.25rem;
+  }
+  
+  .hero-description {
+    font-size: 1rem;
+  }
+  
+  .hero-content {
+    padding: 2rem;
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+  }
+  
+  .nav-item {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .hero-content {
+    padding: 1.5rem;
+  }
+  
+  .card-content {
+    padding: 1rem;
+  }
+}
+
+/* ===================================
+   Scroll Animations (Optional)
+   =================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .content-card {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+  }
+  
+  .content-card:nth-child(1) { animation-delay: 0.1s; }
+  .content-card:nth-child(2) { animation-delay: 0.2s; }
+  .content-card:nth-child(3) { animation-delay: 0.3s; }
+  .content-card:nth-child(4) { animation-delay: 0.4s; }
+  .content-card:nth-child(5) { animation-delay: 0.5s; }
+  .content-card:nth-child(6) { animation-delay: 0.6s; }
+  .content-card:nth-child(7) { animation-delay: 0.7s; }
+  .content-card:nth-child(8) { animation-delay: 0.8s; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===================================
+   Utility Classes
+   =================================== */
+.text-center {
+  text-align: center;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
