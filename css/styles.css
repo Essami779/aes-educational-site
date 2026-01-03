@@ -168,9 +168,10 @@ img {
    Main Content Styles
    =================================== */
 .main-content {
-  margin-right: var(--sidebar-width);
+  margin-right: 0;
   padding: 2rem;
   min-height: 100vh;
+  width: 100%;
 }
 
 /* ===================================
