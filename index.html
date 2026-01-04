@@ -352,6 +352,63 @@
       </div>
     </section>
 
+    <!-- Code Implementation Section -->
+    <section id="code-implementation" class="content-card">
+      <div class="card-header">
+        <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
+        </svg>
+        <h2 class="card-title">تطبيق الخوارزمية برمجياً</h2>
+      </div>
+      <div class="card-content">
+        <p>
+          في صفحة <a href="encrypt.html" class="text-link">أداة التشفير</a>، قمنا باستخدام مكتبة <strong>CryptoJS</strong> الشهيرة لتطبيق خوارزمية AES. إليك نظرة على كيفية عمل الكود الفعلي الذي يقوم بالعمليات الرياضية المعقدة التي شرحناها سابقاً:
+        </p>
+
+        <h4 class="section-subtitle">1. تضمين المكتبة</h4>
+        <div class="code-block">
+          <pre>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"&gt;&lt;/script&gt;</pre>
+        </div>
+
+        <h4 class="section-subtitle">2. دالة التشفير (Encryption)</h4>
+        <p>
+          تستخدم المكتبة دالة <code>encrypt</code> التي تقوم بتنفيذ جميع خطوات AES (SubBytes, ShiftRows, MixColumns, AddRoundKey) وتوسيع المفتاح تلقائياً. النتيجة الافتراضية تكون بتنسيق Base64 لسهولة القراءة والنقل.
+        </p>
+        <div class="code-block">
+          <pre><code class="language-javascript">// النص الأصلي والمفتاح
+const startEncryption = (plaintext, key) => {
+  // يقوم CryptoJS بتشفير النص باستخدام المفتاح
+  // يقوم تلقائياً بإنشاء متجه تهيئة (IV) عشوائي واستخدامه
+  const encrypted = CryptoJS.AES.encrypt(plaintext, key).toString();
+  return encrypted;
+};</code></pre>
+        </div>
+
+        <h4 class="section-subtitle">3. دالة فك التشفير (Decryption)</h4>
+        <p>
+          تقوم دالة <code>decrypt</code> بعكس جميع العمليات (Inverse SubBytes, Inverse ShiftRows, etc.) لاستعادة البيانات الأصلية. يجب استخدام نفس المفتاح تماماً.
+        </p>
+        <div class="code-block">
+          <pre><code class="language-javascript">const startDecryption = (ciphertext, key) => {
+  // فك التشفير يعيد كائناً يحتوي على البيانات (WordArrray)
+  const decrypted = CryptoJS.AES.decrypt(ciphertext, key);
+  
+  // تحويل البيانات الخام إلى نص مقروء (UTF-8)
+  const originalText = decrypted.toString(CryptoJS.enc.Utf8);
+  return originalText;
+};</code></pre>
+        </div>
+        
+        <div class="info-box accent-box">
+          <h4 class="info-box-title">ملاحظة برمجية:</h4>
+          <p>
+            مكتبة <strong>CryptoJS</strong> تسهل التعامل مع AES بشكل كبير، حيث تخفي كل التعقيدات الرياضية (مثل الضرب في حقل غالوا) وتوفر واجهة بسيطة وعالية الأداء للمطورين.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- Conclusion -->
     <section class="conclusion-section">
       <h3 class="conclusion-title">الخلاصة</h3>
