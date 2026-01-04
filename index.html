@@ -409,6 +409,83 @@ const startEncryption = (plaintext, key) => {
       </div>
     </section>
 
+    <!-- Practical Example Section -->
+    <section id="practical-example" class="content-card">
+      <div class="card-header">
+        <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        <h2 class="card-title">مثال عملي شامل: "Free Palestine"</h2>
+      </div>
+      <div class="card-content">
+        <p>
+          لنفهم كيف تتعامل الخوارزمية مع البيانات فعلياً، سنقوم بتتبع تشفير عبارة <strong>"Free Palestine"</strong> خطوة بخطوة، نظرياً وبرمجياً.
+        </p>
+
+        <h4 class="section-subtitle">1. التحليل النظري (Theory)</h4>
+        
+        <div class="info-box blue-box">
+          <h4 class="info-box-title">تحويل النص إلى بايتات (Hex):</h4>
+          <p>
+            النص: <code>Free Palestine</code><br>
+            الطول: 14 حرفاً (بايت).<br>
+            بما أن كتلة AES يجب أن تكون 16 بايت، نحتاج لإضافة <strong>حشو (Padding)</strong> بمقدار 2 بايت.
+          </p>
+          <div class="code-block">
+            <pre>
+F  r  e  e     P  a  l  e  s  t  i  n  e  [pad] [pad]
+46 72 65 65 20 50 61 6c 65 73 74 69 6e 65  02    02</pre>
+          </div>
+        </div>
+
+        <h4 class="section-subtitle">2. تحويل إلى مصفوفة الحالة (State Matrix)</h4>
+        <p>
+          يتم ترتيب الـ 16 بايت في مصفوفة 4×4 عمودياً:
+        </p>
+        <div class="code-block">
+          <pre>
+[ 46  20  65  6e ]
+[ 72  50  61  65 ]
+[ 65  61  74  02 ]
+[ 65  6c  69  02 ]</pre>
+        </div>
+        <p class="input-hint">لاحظ كيف يتم تعبئة الأعمدة (46, 72, 65, 65) يمثلون كلمة "Free".</p>
+
+        <h4 class="section-subtitle">3. التطبيق البرمجي (Code)</h4>
+        <p>
+          إليك كيف نكتب الكود لتشفير هذه العبارة تحديداً باستخدام المكتبة:
+        </p>
+        <div class="code-block">
+          <pre><code class="language-javascript">// 1. تعريف النص والمفتاح
+const text = "Free Palestine";
+const key = "SecretKey1234567"; // مفتاح من 16 حرف (128 بت)
+
+// 2. التشفير
+const encrypted = CryptoJS.AES.encrypt(text, key).toString();
+
+console.log("النص الأصلي:", text);
+console.log("النص المشفر:", encrypted);
+
+// 3. فك التشفير للتأكد
+const decryptedBytes = CryptoJS.AES.decrypt(encrypted, key);
+const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+console.log("تم فك التشفير:", decryptedText); // سيطبع: Free Palestine</code></pre>
+        </div>
+
+        <div class="info-box success-box">
+          <h4 class="info-box-title">النتيجة:</h4>
+          <p>
+            عند تشغيل هذا الكود، ستقوم المكتبة تلقائياً بإضافة الحشو (02 02) قبل التشفير، وإزالته بعد فك التشفير، ليعود النص مطابقاً تماماً: <strong>Free Palestine</strong>.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- Conclusion -->
     <section class="conclusion-section">
       <h3 class="conclusion-title">الخلاصة</h3>
